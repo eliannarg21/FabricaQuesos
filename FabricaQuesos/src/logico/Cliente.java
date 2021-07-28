@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Cliente {
 	
-	private String nombre;
+	public static String nombre;
 	private String cedula;
 	private String direccion;
 	private String telefono;
@@ -12,7 +12,7 @@ public class Cliente {
 	
 	public Cliente(String nombre, String cedula, String direccion, String telefono) {
 		super();
-		this.nombre = nombre;
+		Cliente.nombre = nombre;
 		this.cedula = cedula;
 		this.direccion = direccion;
 		this.telefono = telefono;
@@ -24,7 +24,7 @@ public class Cliente {
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		Cliente.nombre = nombre;
 	}
 
 	public String getDireccion() {
