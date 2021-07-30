@@ -19,8 +19,8 @@ public class Esfera extends Queso {
 
 	@Override
 	public float volumen() {
-		float vol = (float) ((float) (Math.PI * Math.pow(radio, 3)));
-		return (float) (vol * 1.33333);
+		float vol = (float) ((4.0/3.0) * Math.PI * Math.pow(radio, 3));
+		return vol;
 	}
 
 }

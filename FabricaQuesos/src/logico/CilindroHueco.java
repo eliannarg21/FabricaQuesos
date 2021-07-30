@@ -18,7 +18,7 @@ public class CilindroHueco extends Cilindro {
 	}
 	
 	public float areaBase() {
-		return (float) (Math.PI * (Math.pow(radio, 2) - Math.pow(radioInterior, 2)));
+		return (float) (Math.PI * ((Math.pow(radio, 2)) - (Math.pow(radioInterior, 2))));
 	}
 
 }

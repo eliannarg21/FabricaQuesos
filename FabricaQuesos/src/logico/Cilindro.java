@@ -32,7 +32,7 @@ public class Cilindro extends Queso {
 		return (float) (longitud * areaBase());
 	}
 
-	private float areaBase() {
+	public float areaBase() {
 		
 		return (float) (Math.PI * Math.pow(radio, 2));
 	}

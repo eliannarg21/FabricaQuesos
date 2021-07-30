@@ -94,6 +94,8 @@ public class RealizarVenta extends JDialog {
 						txtNombre.setText(clienteAux.getNombre());
 						txtTelefono.setText(clienteAux.getTelefono());
 						txtDireccion.setText(clienteAux.getDireccion());
+						listDisponible.enable(true);
+						listQuesos.enable(true);
 					} else {
 						clean();
 					}
@@ -133,6 +135,7 @@ public class RealizarVenta extends JDialog {
 			panel_1.add(lblNewLabel_5);
 			
 			txtDireccion = new JTextField();
+			txtDireccion.setEditable(false);
 			txtDireccion.setBounds(79, 67, 329, 26);
 			panel_1.add(txtDireccion);
 			txtDireccion.setColumns(10);
@@ -147,6 +150,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(scrollPane);
 			
 			listDisponible = new JList();
+			listDisponible.setEnabled(false);
 			listDisponible.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -174,6 +178,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(scrollPane_1);
 			
 			listQuesos = new JList();
+			listQuesos.setEnabled(false);
 			listQuesos.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -284,5 +289,7 @@ public class RealizarVenta extends JDialog {
 		txtTelefono.setEditable(true);
 		txtDireccion.setEditable(true);
 		listModelQuesos.removeAllElements();
+		listDisponible.enable(true);
+		listQuesos.enable(true);
 	}
 }

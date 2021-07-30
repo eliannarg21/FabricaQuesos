@@ -1,15 +1,20 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Fabrica {
+public class Fabrica implements Serializable {
 	
+	private static final long serialVersionUID = -6678963222406516977L;
+	private ArrayList<Usuario> users;
 	private ArrayList<Cliente> clientes;
 	private ArrayList<Queso> quesos;
 	private ArrayList<Factura> facturas;
 	private static Fabrica fabrica = null;
+	private static Usuario loginUser;
 
 	public Fabrica() {
+		users = new ArrayList<>();
 		clientes = new ArrayList<>();
 		quesos = new ArrayList<>();
 		facturas = new ArrayList<>();
@@ -20,6 +25,14 @@ public class Fabrica {
 			fabrica = new Fabrica();
 		}
 		return fabrica;
+	}
+	
+	public ArrayList<Usuario> getUsers() {
+		return users;
+	}
+
+	public void setUsers(ArrayList<Usuario> users) {
+		this.users = users;
 	}
 
 	public ArrayList<Cliente> getClientes() {
@@ -46,6 +59,22 @@ public class Fabrica {
 		this.facturas = facturas;
 	}
 	
+	public static Usuario getLoginUser() {
+		return loginUser;
+	}
+
+	public static void setLoginUser(Usuario loginUser) {
+		Fabrica.loginUser = loginUser;
+	}
+
+	public static Fabrica getFabrica() {
+		return fabrica;
+	}
+
+	public static void setFabrica(Fabrica fabrica) {
+		Fabrica.fabrica = fabrica;
+	}
+
 	public float totalFactura (Factura f) {
 		float suma = 0;
 		
@@ -104,6 +133,21 @@ public class Fabrica {
 			}
 		}
 		return null;
+	}
+	
+	public boolean confirmLogin(String username, String password) {
+		boolean login = false;
+		for (Usuario user : users) {
+			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+				loginUser = user;
+				login = true;
+			}
+		}
+		return login;
+	}
+	
+	public void regUser(Usuario user) {
+		users.add(user);
 	}
 
 }

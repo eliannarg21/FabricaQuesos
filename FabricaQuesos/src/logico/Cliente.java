@@ -1,10 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente {
+public class Cliente implements Serializable {
 	
-	public static String nombre;
+	private static final long serialVersionUID = 4999530391161168015L;
+	private String nombre;
 	private String cedula;
 	private String direccion;
 	private String telefono;
@@ -12,7 +14,7 @@ public class Cliente {
 	
 	public Cliente(String nombre, String cedula, String direccion, String telefono) {
 		super();
-		Cliente.nombre = nombre;
+		this.nombre = nombre;
 		this.cedula = cedula;
 		this.direccion = direccion;
 		this.telefono = telefono;
@@ -24,7 +26,7 @@ public class Cliente {
 	}
 
 	public void setNombre(String nombre) {
-		Cliente.nombre = nombre;
+		this.nombre = nombre;
 	}
 
 	public String getDireccion() {

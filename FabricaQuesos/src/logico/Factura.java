@@ -1,12 +1,16 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class Factura {
+public class Factura implements Serializable {
 	
+	private static final long serialVersionUID = -7735450278062346586L;
 	private String id;
 	private Cliente micliente;
 	private ArrayList<Queso> misquesos;
+	private Calendar date;
 	public static int generadorId = 1;
 	
 	public Factura(String id, Cliente micliente) {
@@ -14,6 +18,7 @@ public class Factura {
 		this.id = id;
 		this.micliente = micliente;
 		misquesos = new ArrayList<>();
+		this.date = Calendar.getInstance();
 		generadorId++;
 	}
 
