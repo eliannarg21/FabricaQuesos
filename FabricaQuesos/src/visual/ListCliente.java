@@ -94,6 +94,7 @@ public class ListCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.setEnabled(false);
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int option = JOptionPane.showConfirmDialog(null, "Desea eliminar el cliente seleccionado: "+ selected.getCedula(), "Eliminar Cliente", JOptionPane.YES_NO_OPTION);

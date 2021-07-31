@@ -15,7 +15,7 @@ public abstract class Queso implements Serializable{
 		this.id = id;
 		this.precioBase = precioBase;
 		this.precioUnitario = precioUnitario;
-		generadorId++;
+		Queso.generadorId++;
 	}
 
 	public float getPrecioBase() {

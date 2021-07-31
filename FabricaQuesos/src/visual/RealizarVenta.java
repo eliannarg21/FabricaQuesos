@@ -27,6 +27,11 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -230,6 +235,7 @@ public class RealizarVenta extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						ArrayList<Queso> quesos = new ArrayList<>();
+						Factura fac;
 						for (int i = 0; i < listModelQuesos.getSize(); i++) {
 							String aux = listModelQuesos.elementAt(i);
 							Queso queso = Fabrica.getInstance().findQuesoById(aux.substring(8, aux.indexOf('|')));
@@ -238,20 +244,39 @@ public class RealizarVenta extends JDialog {
 						}
 						Cliente cliente = Fabrica.getInstance().findClienteByCedula(txtCedula.getText());
 						if (cliente != null) {
-							Factura fac = new Factura("F-"+Factura.generadorId, cliente);
+							fac = new Factura("F-"+Factura.generadorId, cliente);
 							fac.setMisquesos(quesos);
 							cliente.getMisFacturas().add(fac);
 							Fabrica.getInstance().getFacturas().add(fac);
 						} else {
 							Cliente nuevo = new Cliente(txtNombre.getText(), txtCedula.getText(), txtDireccion.getText(), txtTelefono.getText());
 							Fabrica.getInstance().getClientes().add(nuevo);
-							Factura fac = new Factura("F-"+Factura.generadorId, nuevo);
+							fac = new Factura("F-"+Factura.generadorId, nuevo);
 							fac.setMisquesos(quesos);
 							nuevo.getMisFacturas().add(fac);
 							Fabrica.getInstance().getFacturas().add(fac);
 							
 						}
 						JOptionPane.showMessageDialog(null, "Registrado satisfactoriamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+						String id = fac.getId();
+						File archivo = new File("factura/"+id+".txt");
+						FileWriter escritor;
+						
+						try {
+							SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+							DecimalFormat df = new DecimalFormat("0.00");
+							escritor = new FileWriter(archivo);
+							String date = sdf.format(fac.getDate().getTime());
+							escritor.write("Fecha: "+date+"\nCliente: "+fac.getMicliente().getNombre()+"\n\nQuesos: \n");
+							for (Queso queso : fac.getMisquesos()) {
+								escritor.write(queso.getId()+"\t"+df.format(queso.volumen())+"\t"+df.format(queso.precioTotal())+"\n");
+							}
+							escritor.write("\nTotal: "+df.format(fac.precioFactura()));
+							escritor.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						clean();
 					}
 				});

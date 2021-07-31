@@ -19,6 +19,7 @@ import logico.Fabrica;
 import logico.Queso;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
@@ -26,6 +27,8 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListQueso extends JDialog {
 
@@ -35,6 +38,7 @@ public class ListQueso extends JDialog {
 	private Queso selected = null;
 	private JTable table;
 	private JComboBox cbxTipo;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -54,7 +58,7 @@ public class ListQueso extends JDialog {
 	 */
 	public ListQueso() {
 		setTitle("Listado de Quesos");
-		setBounds(100, 100, 597, 376);
+		setBounds(100, 100, 597, 369);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -93,6 +97,18 @@ public class ListQueso extends JDialog {
 				model.setColumnIdentifiers(headers);
 				loadtable(0);
 				table = new JTable();
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int index = -1;
+						index = table.getSelectedRow();
+						if (index != -1) {
+							btnEliminar.setEnabled(true);
+							String id = (String)(model.getValueAt(index, 0));
+							selected = Fabrica.getInstance().findQuesoById(id);
+						}
+					}
+				});
 				table.setModel(model);
 				scrollPane.setViewportView(table);
 			}
@@ -102,14 +118,21 @@ public class ListQueso extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Eliminar");
-				okButton.addActionListener(new ActionListener() {
+				btnEliminar = new JButton("Eliminar");
+				btnEliminar.setEnabled(false);
+				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						int option = JOptionPane.showConfirmDialog(null, "Desea eliminar el queso seleccionado: "+ selected.getId(), "Eliminar Queso", JOptionPane.YES_NO_OPTION);
+						if (option == JOptionPane.YES_OPTION) {
+							Fabrica.getInstance().getQuesos().remove(selected);
+							loadtable(0);
+							btnEliminar.setEnabled(false);
+						}
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnEliminar.setActionCommand("OK");
+				buttonPane.add(btnEliminar);
+				getRootPane().setDefaultButton(btnEliminar);
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");

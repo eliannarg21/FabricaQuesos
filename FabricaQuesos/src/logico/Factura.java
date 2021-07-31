@@ -3,6 +3,7 @@ package logico;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Factura implements Serializable {
 	
@@ -19,7 +20,7 @@ public class Factura implements Serializable {
 		this.micliente = micliente;
 		misquesos = new ArrayList<>();
 		this.date = Calendar.getInstance();
-		generadorId++;
+		Factura.generadorId++;
 	}
 
 	public Cliente getMicliente() {
@@ -44,6 +45,14 @@ public class Factura implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
 	}
 
 	public float precioFactura() {
