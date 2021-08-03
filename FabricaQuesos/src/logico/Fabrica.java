@@ -126,6 +126,15 @@ public class Fabrica implements Serializable {
 		return null;
 	}
 	
+	public Usuario findUsuarioByUsername(String username) {
+		for (Usuario user : users) {
+			if (user.getUsername().equals(username)) {
+				return user;
+			}
+		}
+		return null;
+	}
+	
 	public Queso findQuesoById(String id) {
 		for (Queso queso : quesos) {
 			if (queso.getId().equalsIgnoreCase(id)) {

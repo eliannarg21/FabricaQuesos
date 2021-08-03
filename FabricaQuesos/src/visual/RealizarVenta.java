@@ -14,6 +14,7 @@ import logico.Cliente;
 import logico.Fabrica;
 import logico.Factura;
 import logico.Queso;
+import logico.Servidor;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,9 +28,15 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -258,8 +265,21 @@ public class RealizarVenta extends JDialog {
 							
 						}
 						JOptionPane.showMessageDialog(null, "Registrado satisfactoriamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-						String id = fac.getId();
-						File archivo = new File("factura/"+id+".txt");
+						Socket s = null;
+						DataOutputStream Salida = null;
+						String f;
+						try {
+							s = new Socket("localhost", 6666);
+							Salida = new DataOutputStream(new BufferedOutputStream(s.getOutputStream()));
+						} catch (UnknownHostException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						} catch (IOException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						//String id = fac.getId();
+						File archivo = new File("factura/"+fac.getId()+".txt");
 						FileWriter escritor;
 						
 						try {
@@ -268,11 +288,16 @@ public class RealizarVenta extends JDialog {
 							escritor = new FileWriter(archivo);
 							String date = sdf.format(fac.getDate().getTime());
 							escritor.write("Fecha: "+date+"\nCliente: "+fac.getMicliente().getNombre()+"\n\nQuesos: \n");
+							f = "Fecha: "+date+"\nCliente: "+fac.getMicliente().getNombre()+"\n\nQuesos: \n";
 							for (Queso queso : fac.getMisquesos()) {
 								escritor.write(queso.getId()+"\t"+df.format(queso.volumen())+"\t"+df.format(queso.precioTotal())+"\n");
+								f = f + queso.getId()+"\t"+df.format(queso.volumen())+"\t"+df.format(queso.precioTotal())+"\n";
 							}
 							escritor.write("\nTotal: "+df.format(fac.precioFactura()));
+							f = f + "\nTotal: "+df.format(fac.precioFactura());
 							escritor.close();
+							Salida.writeUTF(f);
+							Salida.flush();
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

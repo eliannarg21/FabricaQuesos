@@ -132,6 +132,32 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_4);
+		
+		JMenu mnNewMenu_3 = new JMenu("Administración");
+		if (!Fabrica.getLoginUser().getTipo().equalsIgnoreCase("Administrador")) {
+			mnNewMenu_3.setEnabled(false);
+		}
+		menuBar.add(mnNewMenu_3);
+		
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registrar Usuario");
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegUser reg = new RegUser();
+				reg.setModal(true);
+				reg.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_6);
+		
+		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Listar Usuarios");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListUser list = new ListUser();
+				list.setModal(true);
+				list.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_7);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
